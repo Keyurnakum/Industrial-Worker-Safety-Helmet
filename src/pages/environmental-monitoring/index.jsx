@@ -152,9 +152,10 @@ const EnvironmentalMonitoring = () => {
                   size="sm"
                   onClick={() => setAutoRefresh(!autoRefresh)}
                   className="flex items-center space-x-2"
+                  iconName="RefreshCw"
+                  iconPosition="left"
                 >
-                  <Icon name="RefreshCw" size={14} className={autoRefresh ? 'animate-spin' : ''} />
-                  <span>Auto Refresh</span>
+                  <span className={autoRefresh ? 'animate-spin' : ''}>Auto Refresh</span>
                 </Button>
                 
                 {/* Emergency Alert Button */}
@@ -163,8 +164,9 @@ const EnvironmentalMonitoring = () => {
                   size="sm"
                   onClick={handleEmergencyAlert}
                   className="flex items-center space-x-2"
+                  iconName="AlertTriangle"
+                  iconPosition="left"
                 >
-                  <Icon name="AlertTriangle" size={14} />
                   <span>Emergency Alert</span>
                 </Button>
                 
@@ -174,8 +176,9 @@ const EnvironmentalMonitoring = () => {
                   size="sm"
                   onClick={handleExportData}
                   className="flex items-center space-x-2"
+                  iconName="Download"
+                  iconPosition="left"
                 >
-                  <Icon name="Download" size={14} />
                   <span>Export Data</span>
                 </Button>
               </div>

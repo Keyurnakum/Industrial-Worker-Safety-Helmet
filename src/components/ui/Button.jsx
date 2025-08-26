@@ -43,6 +43,7 @@ const Button = React.forwardRef(({
     children,
     loading = false,
     iconName = null,
+    icon = null,
     iconPosition = 'left',
     iconSize = null,
     fullWidth = false,
@@ -50,6 +51,7 @@ const Button = React.forwardRef(({
     ...props
 }, ref) => {
     const Comp = asChild ? Slot : "button";
+    const effectiveVariant = variant === 'primary' ? 'default' : variant;
 
     // Icon size mapping based on button size
     const iconSizeMap = {
@@ -71,7 +73,23 @@ const Button = React.forwardRef(({
         </svg>
     );
 
+    const renderProvidedIcon = () => {
+        if (!icon) return null;
+        try {
+            return React.cloneElement(icon, {
+                className: cn(
+                    icon?.props?.className,
+                    children && iconPosition === 'left' && "mr-2",
+                    children && iconPosition === 'right' && "ml-2"
+                )
+            });
+        } catch {
+            return null;
+        }
+    };
+
     const renderIcon = () => {
+        if (icon) return renderProvidedIcon();
         if (!iconName) return null;
         try {
             return (
@@ -92,7 +110,7 @@ const Button = React.forwardRef(({
     const renderFallbackButton = () => (
         <button
             className={cn(
-                buttonVariants({ variant, size, className }),
+                buttonVariants({ variant: effectiveVariant, size, className }),
                 fullWidth && "w-full"
             )}
             ref={ref}
@@ -100,9 +118,9 @@ const Button = React.forwardRef(({
             {...props}
         >
             {loading && <LoadingSpinner />}
-            {iconName && iconPosition === 'left' && renderIcon()}
+            {(icon || iconName) && iconPosition === 'left' && renderIcon()}
             {children}
-            {iconName && iconPosition === 'right' && renderIcon()}
+            {(icon || iconName) && iconPosition === 'right' && renderIcon()}
         </button>
     );
 
@@ -129,7 +147,7 @@ const Button = React.forwardRef(({
 
             const clonedChild = React.cloneElement(child, {
                 className: cn(
-                    buttonVariants({ variant, size, className }),
+                    buttonVariants({ variant: effectiveVariant, size, className }),
                     fullWidth && "w-full",
                     child?.props?.className
                 ),
@@ -146,7 +164,7 @@ const Button = React.forwardRef(({
     return (
         <Comp
             className={cn(
-                buttonVariants({ variant, size, className }),
+                buttonVariants({ variant: effectiveVariant, size, className }),
                 fullWidth && "w-full"
             )}
             ref={ref}
@@ -154,9 +172,9 @@ const Button = React.forwardRef(({
             {...props}
         >
             {loading && <LoadingSpinner />}
-            {iconName && iconPosition === 'left' && renderIcon()}
+            {(icon || iconName) && iconPosition === 'left' && renderIcon()}
             {children}
-            {iconName && iconPosition === 'right' && renderIcon()}
+            {(icon || iconName) && iconPosition === 'right' && renderIcon()}
         </Comp>
     );
 });

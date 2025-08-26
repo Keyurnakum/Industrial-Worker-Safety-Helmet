@@ -12,6 +12,7 @@ export default defineConfig({
     outDir: "dist",
     chunkSizeWarningLimit: 2000,
   },
+  base: "./",
   plugins: [tsconfigPaths(), react(), tagger()],
   resolve: {
     alias: {
